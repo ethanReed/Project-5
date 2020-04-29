@@ -23,8 +23,21 @@ public class HashTable <T extends Comparable<T> >{
     public void add(T item) {
 
     }
-    public void display(){
-
+    public void display() {
+        for(int i = 0; i < hashT.length; i++) {
+            if (hashT[i] == null) {
+                return 0;
+            } else {
+                NGen updatedHead = hashT[i];
+                int size = 0;
+                while (updatedHead != null) {
+                    updatedHead = updatedHead.getNext();
+                    size++;
+                }
+            }
+            System.out.print(size);
+            // print out the tokens as well
+        }
     }
     private int hash(T key){
         /*private int hash(int key)
