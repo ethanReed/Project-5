@@ -1,5 +1,6 @@
-//Reedx500 Johall 004
-
+//Reedx500 Johal 004
+import java.util.Scanner;
+import java.io.*;
 public class HashTable <T extends Comparable<T> >{
 
     private int firstHalfCount = 0;
@@ -9,6 +10,7 @@ public class HashTable <T extends Comparable<T> >{
 
     NGen[] hashT;
     private int length;
+    private int count;
 
     public HashTable(){
         hashT = new NGen[101];
@@ -35,9 +37,56 @@ public class HashTable <T extends Comparable<T> >{
 
         }
     }
+    public String[] textScan (String[] fileName){
 
-    public void display(){
-        
+        Scanner readFile = null;
+        String s;
+        String[] myString = new String[length];
+        int i = 0;
+        count = 0;
+
+        System.out.println();
+        System.out.println("Attempting to read from file: " + fileName[0]);
+        try {
+            readFile = new Scanner(new File(fileName[0]));
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File: " + fileName[0] + " not found");
+            System.exit(1);
+        }
+
+        System.out.println("Connection to file: " + fileName[0] + " successful");
+        System.out.println();
+        while (readFile.hasNext()) {
+            s = readFile.next();
+            myString[i] = s;
+            i++;
+            System.out.println("Token found: " + s);
+            count++;
+        }
+        System.out.println();
+        System.out.println(count + " Tokens found");
+        System.out.println();
+        return myString;
+    }
+
+    public void display() {
+        int size;
+        for(int i = 0; i < hashT.length; i++) {
+            if (hashT[i] == null) {
+                return;
+            } else {
+                NGen updatedHead = hashT[i];
+                size = 0;
+                while (updatedHead != null) {
+                    updatedHead = updatedHead.getNext();
+                    size++;
+                }
+            }
+            System.out.println(size);
+            System.out.println("Tokens found: " + count);
+            // print out the tokens, longest, and shortest chains as well
+        }
     }
     private int hash(T key){
         int charToNum = 0;
@@ -54,10 +103,6 @@ public class HashTable <T extends Comparable<T> >{
         }
         totalValOfS = totalValOfS % length;
         return totalValOfS;
-    }
-
-    public String[] textScan(String fileName){
-
     }
 
     public static void main(String[] args) {
