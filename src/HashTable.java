@@ -8,48 +8,38 @@ public class HashTable <T extends Comparable<T> >{
     private int secondHalfNodeSize = 0;
 
     NGen[] hashT;
-    private int size;
+    private int length;
 
     public HashTable(){
         hashT = new NGen[101];
-        firstHalfNodeSize = 50;
-        secondHalfNodeSize = 51;
+        length = 101;
     }
 
     public HashTable(int size){
         hashT = new NGen[size];
+        length = size;
     }
 
     public void add(T item) {
+        int val = this.hash(item);
 
-    }
-    public void display() {
-        for(int i = 0; i < hashT.length; i++) {
-            if (hashT[i] == null) {
-                return 0;
-            } else {
-                NGen updatedHead = hashT[i];
-                int size = 0;
-                while (updatedHead != null) {
-                    updatedHead = updatedHead.getNext();
-                    size++;
-                }
+        NGen insert = new NGen(item, null);
+
+        if (hashT[val] == null) {
+            hashT[val] = insert;
+        } else {
+            while((!(hashT[val].getNext() == null))){
+                hashT[val].getNext();
             }
-            System.out.print(size);
-            // print out the tokens as well
+            hashT[val].setNext(insert);
+
         }
     }
-    private int hash(T key){
-        /*private int hash(int key)
-T key
-String s  = key.toString()
-loop thru s
-add and/or multiplyeach character together
-..
-% array.length
-return that index
 
-         */
+    public void display(){
+        
+    }
+    private int hash(T key){
         int charToNum = 0;
         int totalValOfS = 0;
         String s = key.toString();
@@ -62,12 +52,15 @@ return that index
             charToNum = c[j];
             totalValOfS += charToNum;
         }
+        totalValOfS = totalValOfS % length;
         return totalValOfS;
+    }
+
+    public String[] textScan(String fileName){
+
     }
 
     public static void main(String[] args) {
         HashTable x = new HashTable();
-        int r = x.hash("Hello");
-        System.out.println(r + "");
     }
 }
