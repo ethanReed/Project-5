@@ -22,7 +22,7 @@ public class HashTable <T extends Comparable<T> >{
         hashT = new NGen[size];
         length = size;
     }
-
+    //part 2
     public void add(T item) {
         int val = this.hash(item);
 
@@ -38,6 +38,7 @@ public class HashTable <T extends Comparable<T> >{
 
         }
     }
+    //part 2 & 4
     private int hash(T key){
         int charToNum = 0;
         int totalValOfS = 0;
@@ -51,31 +52,31 @@ public class HashTable <T extends Comparable<T> >{
             charToNum = c[j];
             totalValOfS += charToNum;
         }
-        totalValOfS = totalValOfS % length;
+        totalValOfS = totalValOfS % length-1;
         return totalValOfS;
     }
-
-    public String[] textScan (String[] fileName){
+    //part 1
+    public String[] textScan (String fileName){
 
         Scanner readFile = null;
         String s;
-        String[] myString = new String[length];
+        String[] myString = new String[length];//idk if we can assume it is 101 we need to see how much text we need to put in 1st
         int i = 0;
         int count = 0;
 
         System.out.println();
-        System.out.println("Attempting to read from file: " + fileName[0]);
+        System.out.println("Attempting to read from file: " + fileName);
         try {
-            readFile = new Scanner(new File(fileName[0]));
+            readFile = new Scanner(new File(fileName));
         }
         catch (FileNotFoundException e) {
-            System.out.println("File: " + fileName[0] + " not found");
+            System.out.println("File: " + fileName + " not found");
             System.exit(1);
         }
 
-        System.out.println("Connection to file: " + fileName[0] + " successful");
+        System.out.println("Connection to file: " + fileName + " successful");
         System.out.println();
-        while (readFile.hasNext()) {
+        while (readFile.hasNext()) {//maybe create another while loop to go through and count to see how big we need to make our array?
             s = readFile.next();
             myString[i] = s;
             i++;
@@ -85,9 +86,12 @@ public class HashTable <T extends Comparable<T> >{
         System.out.println();
         System.out.println(count + " Tokens found");
         System.out.println();
+
+        readFile.close();
+
         return myString;
     }
-
+    //part 3
     public void display() {
         int size;
         for(int i = 0; i < hashT.length; i++) {
@@ -106,16 +110,19 @@ public class HashTable <T extends Comparable<T> >{
             // print out the tokens, longest, and shortest chains as well
         }
     }
-    public void hashedTokens(String[] fName){
+    //part 1
+    public void hashedTokens(String fName){
         String[] words = this.textScan(fName); //Create string array
         //iterate thru array and add every part to the hash function
         for(int i = 0; i < words.length; i++){
             this.add((T) words[i]);
         }
     }
+    //part 4 (inspired by DBJ2 function)
 
     public static void main(String[] args) {
         HashTable x = new HashTable();
-        x.hashedTokens(new String[]{"keywords.txt"});
+        x.hashedTokens("canterbury.txt");
+        x.display();
     }
 }
