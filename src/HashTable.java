@@ -1,6 +1,7 @@
-//Reedx500 Johal 004
+//Reedx500 Johall 004
 import java.util.Scanner;
 import java.io.*;
+
 public class HashTable <T extends Comparable<T> >{
 
     private int firstHalfCount = 0;
@@ -10,7 +11,7 @@ public class HashTable <T extends Comparable<T> >{
 
     NGen[] hashT;
     private int length;
-    private int count;
+    private int count = 0;
 
     public HashTable(){
         hashT = new NGen[101];
@@ -37,13 +38,30 @@ public class HashTable <T extends Comparable<T> >{
 
         }
     }
+    private int hash(T key){
+        int charToNum = 0;
+        int totalValOfS = 0;
+        String s = key.toString();
+
+        char[] c = new char[s.length()];
+        for(int i = 0; i < s.length(); i++){
+            c[i] = s.charAt(i);
+        }
+        for(int j = 0; j < c.length; j++){
+            charToNum = c[j];
+            totalValOfS += charToNum;
+        }
+        totalValOfS = totalValOfS % length;
+        return totalValOfS;
+    }
+
     public String[] textScan (String[] fileName){
 
         Scanner readFile = null;
         String s;
         String[] myString = new String[length];
         int i = 0;
-        count = 0;
+        int count = 0;
 
         System.out.println();
         System.out.println("Attempting to read from file: " + fileName[0]);
@@ -88,24 +106,16 @@ public class HashTable <T extends Comparable<T> >{
             // print out the tokens, longest, and shortest chains as well
         }
     }
-    private int hash(T key){
-        int charToNum = 0;
-        int totalValOfS = 0;
-        String s = key.toString();
-
-        char[] c = new char[s.length()];
-        for(int i = 0; i < s.length(); i++){
-            c[i] = s.charAt(i);
+    public void hashedTokens(String[] fName){
+        String[] words = this.textScan(fName); //Create string array
+        //iterate thru array and add every part to the hash function
+        for(int i = 0; i < words.length; i++){
+            this.add((T) words[i]);
         }
-        for(int j = 0; j < c.length; j++){
-            charToNum = c[j];
-            totalValOfS += charToNum;
-        }
-        totalValOfS = totalValOfS % length;
-        return totalValOfS;
     }
 
     public static void main(String[] args) {
         HashTable x = new HashTable();
+        x.hashedTokens(new String[]{"keywords.txt"});
     }
 }
