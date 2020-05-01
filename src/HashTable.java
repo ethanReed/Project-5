@@ -30,23 +30,27 @@ public class HashTable <T extends Comparable<T> >{
 
         if (hashT[val] == null) {
             hashT[val] = insert;
-        } else {
-            while((!(hashT[val].getNext() == null))){
-                hashT[val].getNext();
+        }else{
+            NGen start = hashT[val];
+            while((start.getNext() != null)){
+                if (start.getData().equals(item)){
+                    return;
+                }else {
+                    start = start.getNext();
+                }
             }
-            hashT[val].setNext(insert);
-
+            start.setNext(insert);
         }
     }
     //part 2 & 4
     private int hash(T key){
+        String k = (String) key;
         int charToNum = 0;
         int totalValOfS = 0;
-        String s = key.toString();
 
-        char[] c = new char[s.length()];
-        for(int i = 0; i < s.length(); i++){
-            c[i] = s.charAt(i);
+        char[] c = k.toCharArray();
+        for(int i = 0; i < c.length; i++){
+            c[i] = k.charAt(i);
         }
         for(int j = 0; j < c.length; j++){
             charToNum = c[j];
@@ -60,7 +64,7 @@ public class HashTable <T extends Comparable<T> >{
 
         Scanner readFile = null;
         String s;
-        String[] myString = new String[length];//idk if we can assume it is 101 we need to see how much text we need to put in 1st
+        String t;
         int i = 0;
         int count = 0;
 
@@ -76,12 +80,23 @@ public class HashTable <T extends Comparable<T> >{
 
         System.out.println("Connection to file: " + fileName + " successful");
         System.out.println();
-        while (readFile.hasNext()) {//maybe create another while loop to go through and count to see how big we need to make our array?
-            s = readFile.next();
+        while(readFile.hasNext()) {
+            t = readFile.next();
+            count++;
+        }
+        String[] myString = new String[count];
+
+        Scanner newReadFile = null;
+        try {
+            newReadFile = new Scanner(new File(fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (newReadFile.hasNext()) {//maybe create another while loop to go through and count to see how big we need to make our array?
+            s = newReadFile.next();
             myString[i] = s;
             i++;
             System.out.println("Token found: " + s);
-            count++;
         }
         System.out.println();
         System.out.println(count + " Tokens found");
@@ -93,22 +108,27 @@ public class HashTable <T extends Comparable<T> >{
     }
     //part 3
     public void display() {
-        int size;
+        int longChain = 0;
+        int shortChain = 0;//do the first index you can find; if having a hard time consider making it a global variable
+        int tokenCount = 0;
         for(int i = 0; i < hashT.length; i++) {
-            if (hashT[i] == null) {
-                return;
-            } else {
+            if (hashT[i] != null) {
+                int count = 0;
+                //have a short change counter. If short chain counter < current short chain replace.
                 NGen updatedHead = hashT[i];
-                size = 0;
                 while (updatedHead != null) {
+                    tokenCount++;
                     updatedHead = updatedHead.getNext();
-                    size++;
+                    count++;
+                    if(count > longChain){
+                        longChain = count;
+                    }
                 }
             }
-            System.out.println(size);
-            System.out.println("Tokens found: " + count);
             // print out the tokens, longest, and shortest chains as well
         }
+        System.out.println(longChain);
+        System.out.println("Tokens found: " + tokenCount);
     }
     //part 1
     public void hashedTokens(String fName){
@@ -122,7 +142,9 @@ public class HashTable <T extends Comparable<T> >{
 
     public static void main(String[] args) {
         HashTable x = new HashTable();
-        x.hashedTokens("canterbury.txt");
+        x.hashedTokens("keywords.txt");
+
         x.display();
-    }
+
+        }
 }
