@@ -1,4 +1,4 @@
-//Reedx500 Johall 004
+//Reedx500 Johal 004
 import java.util.Scanner;
 import java.io.*;
 
@@ -111,24 +111,28 @@ public class HashTable <T extends Comparable<T> >{
         int longChain = 0;
         int shortChain = 0;//do the first index you can find; if having a hard time consider making it a global variable
         int tokenCount = 0;
+        int countShort = 0;
         for(int i = 0; i < hashT.length; i++) {
             if (hashT[i] != null) {
                 int count = 0;
-                //have a short change counter. If short chain counter < current short chain replace.
                 NGen updatedHead = hashT[i];
                 while (updatedHead != null) {
                     tokenCount++;
                     updatedHead = updatedHead.getNext();
                     count++;
+                    countShort++;
                     if(count > longChain){
                         longChain = count;
                     }
+                    if(countShort < shortChain) {
+                        shortChain = countShort;
+                    }
                 }
             }
-            // print out the tokens, longest, and shortest chains as well
         }
-        System.out.println(longChain);
-        System.out.println("Tokens found: " + tokenCount);
+        System.out.println("Long Chain: " + longChain);
+        System.out.println("Short Chain: " + shortChain);
+        System.out.println(tokenCount + " Tokens found");
     }
     //part 1
     public void hashedTokens(String fName){
@@ -146,5 +150,5 @@ public class HashTable <T extends Comparable<T> >{
 
         x.display();
 
-        }
+    }
 }
