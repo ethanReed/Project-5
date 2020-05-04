@@ -73,6 +73,10 @@ public class HashTable <T extends Comparable<T> >{
     //part 2
     public void add(T item) {
         int val = this.hash(item);
+        System.out.println(val);
+        if(val < 0){
+            val = val * -1;
+        }
 
         NGen insert = new NGen(item, null);
 
@@ -136,6 +140,7 @@ public class HashTable <T extends Comparable<T> >{
                 start += row + "\n";
             }
         }
+        shortChain++;
         System.out.println(start);
         System.out.println("spots with at least 1 element: " + arrayOrginalSpots);
         System.out.println("Number of collisions: " + collisionCounter);
@@ -155,6 +160,7 @@ public class HashTable <T extends Comparable<T> >{
         String k = (String) key;
         int charToNum = 0;
         int totalValOfS = 0;
+        int hash = 7;
 
         char[] c = k.toCharArray();
         for(int i = 0; i < c.length; i++){
@@ -162,7 +168,8 @@ public class HashTable <T extends Comparable<T> >{
         }
         for(int j = 0; j < c.length; j++){
             charToNum = c[j];
-            totalValOfS += charToNum;
+            hash = (hash * 31) + charToNum;
+            totalValOfS += hash;
         }
         totalValOfS = totalValOfS % length;
         return totalValOfS;
@@ -178,7 +185,7 @@ public class HashTable <T extends Comparable<T> >{
 
     public static void main(String[] args) {
         HashTable x = new HashTable();
-        x.hashedTokens("canterbury.txt");
+        x.hashedTokens("keywords.txt");
 
         x.display();
 
