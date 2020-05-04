@@ -84,14 +84,17 @@ public class HashTable <T extends Comparable<T> >{
             hashT[val] = insert;
         }else{
             NGen start = hashT[val];
+            if (start.getData().equals(item)) {
+                return;
+            }
             while((start.getNext() != null)){
                 if (start.getData().equals(item)){
                     return;
                 }else {
-                    collisionCounter++;
                     start = start.getNext();
                 }
             }
+            collisionCounter++;
             start.setNext(insert);
         }
     }
