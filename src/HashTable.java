@@ -26,6 +26,8 @@ public class HashTable <T extends Comparable<T> >{
         length = size;
     }
     //part 1
+    // this method is nearly identical to the textScan.java file we were provided. It opens a file and reads through it
+    // and returns a string array of all the items.
     public String[] textScan (String fileName){
         if (fileName.equals("keyword.txt")){
             keyword = true;
@@ -56,7 +58,7 @@ public class HashTable <T extends Comparable<T> >{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        while (newReadFile.hasNext()) {//maybe create another while loop to go through and count to see how big we need to make our array?
+        while (newReadFile.hasNext()) {
             s = newReadFile.next();
             myString[i] = s;
             i++;
@@ -71,6 +73,7 @@ public class HashTable <T extends Comparable<T> >{
         return myString;
     }
     //part 2
+    // add method adds items to the hashtable.
     public void add(T item) {
         if (keyword == true){
             int val = this.hashKeywords(item);
@@ -103,6 +106,8 @@ public class HashTable <T extends Comparable<T> >{
         }
     }
     //part 3
+    // The display method prints the contents of the hashtable. It showcases the number of collisions, length of the
+    // long chain, length of the short chain, and how many tokens were found.
     public void display() {
         int longChain = 0;
         int shortChain = -1;
@@ -135,7 +140,8 @@ public class HashTable <T extends Comparable<T> >{
             }
         }
         String start = "";
-        for(int j = 0; j <hashT.length; j++) {
+        // creates a string that represents the array
+        for(int j = 0; j < hashT.length; j++) {
             if (hashT[j] != null) {
                 NGen updatedHead = hashT[j];
                 String row = j + "";
